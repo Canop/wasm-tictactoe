@@ -1,0 +1,29 @@
+[package]
+name = "wasm_tictactoe"
+version = "0.1.0"
+authors = ["nobody, really"]
+edition = "2018"
+repository = "https://github.com/Canop/wasm-tictactoe"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2.47"
+js-sys = "0.3.24"
+
+[dependencies.web-sys]
+version = "0.3.24"
+features = [
+	'Attr',
+	'console',
+	'Document',
+	'DomTokenList', 
+	'Element',
+	'HtmlElement',
+	'NamedNodeMap',
+	'Node',
+	'Window',
+]
+

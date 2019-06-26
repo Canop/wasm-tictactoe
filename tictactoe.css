@@ -1,0 +1,65 @@
+body, div {
+	padding: 0;
+	margin: 0;
+}
+html, body {
+	height: 100%;
+}
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: #583851;
+}
+
+.board-box {
+	flex: 0 0 300px;
+	width: 300px;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+.board {
+	position:  absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: #583851;
+	display: grid;
+	grid-template-columns: auto auto auto;
+	grid-template-rows: auto auto auto;
+	grid-column-gap: 8px;
+	grid-row-gap: 8px;
+	border-bottom: 1px solid white; /* workaround for a chrome bug */
+	border-right: 1px solid white; /* workaround for a chrome bug */
+}
+.cell {
+	background: white;
+	position: relative;
+}
+.cell.X::before {
+	position: absolute;
+	top: 50%;
+	content: "❌";
+	left: 50%;
+	margin: -34px -21px;
+	right: 0;
+	align-items: center;
+	font-size: 60px;
+}
+.cell.O::before {
+	position: absolute;
+	top: 50%;
+	content: "⭘";
+	left: 50%;
+	margin: -31px -25px;
+	right: 0;
+	align-items: center;
+	font-size: 50px;
+}
+.cell.empty {
+	cursor: pointer;
+}
+
