@@ -1,5 +1,6 @@
+use std::ops::Range;
 use js_sys::Math::random;
 
-pub fn random_usize(max: usize) -> usize {
-    (random() * max as f64) as usize
+pub fn random_usize(range: Range<usize>) -> usize {
+    range.start + (random() * range.end as f64) as usize
 }

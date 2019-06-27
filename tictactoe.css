@@ -32,8 +32,8 @@ body {
 	grid-template-rows: auto auto auto;
 	grid-column-gap: 8px;
 	grid-row-gap: 8px;
-	border-bottom: 1px solid white; /* workaround for a chrome bug */
-	border-right: 1px solid white; /* workaround for a chrome bug */
+	border-bottom: 2px solid white; /* workaround for a chrome bug */
+	border-right: 2px solid white; /* workaround for a chrome bug */
 }
 .cell {
 	background: white;
@@ -42,12 +42,12 @@ body {
 .cell.X::before {
 	position: absolute;
 	top: 50%;
-	content: "❌";
+	content: "✗";
 	left: 50%;
-	margin: -34px -21px;
+	margin: -34px -25px;
 	right: 0;
 	align-items: center;
-	font-size: 60px;
+	font-size: 64px;
 }
 .cell.O::before {
 	position: absolute;
@@ -57,9 +57,33 @@ body {
 	margin: -31px -25px;
 	right: 0;
 	align-items: center;
-	font-size: 50px;
+	font-size: 54px;
+	font-family: sans-serif;
 }
 .cell.empty {
 	cursor: pointer;
 }
-
+.game-outcome {
+	position: absolute;
+	top: 50px;
+	font-size: 80px;
+	color: white;
+	opacity: .7;
+	background: #583851;
+	text-align: center;
+}
+#footer {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: -20px;
+	text-align: center;
+	font-family: sans-serif;
+	line-height: 20px;
+	opacity: 0;
+}
+#footer.visible {
+	bottom: 15px;
+	opacity: 1;
+	transition: all 2s;
+}

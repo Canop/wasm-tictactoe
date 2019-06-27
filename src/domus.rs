@@ -1,6 +1,7 @@
+//! A few utilities to deal with the dom
+
 use wasm_bindgen::{prelude::*, JsCast};
 use web_sys::{Element, Document, HtmlElement, console};
-
 
 pub trait DomusElement {
     fn empty(&self);
@@ -36,7 +37,7 @@ pub fn tag(tag_name: &str) -> Result<HtmlElement, JsValue> {
     let e: Element = doc().create_element(tag_name)?;
     match e.dyn_into::<HtmlElement>() {
         Ok(e) => Ok(e),
-        Err(e) => js_err(&format!("{:?} tag not making a HtmlElement", tag_name)),
+        Err(_) => js_err(&format!("{:?} tag not making a HtmlElement", tag_name)),
     }
 }
 

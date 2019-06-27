@@ -19,10 +19,10 @@ impl App {
     }
     // initial construction of the page
     pub fn run_inside(self, parent: &mut HtmlElement) -> Result<(), JsValue> {
-        parent.empty();
+        log!("Hi! This isn't a JavaScript application but a Wasm application written in Rust. Play a game to know more.");
+        //parent.empty();
         let bbox = tag_class("div", "board-box")?;
         self.board_view.run_in(&bbox)?;
-        //self.board_view.write_in(&bbox)?;
         parent.append_child(&bbox)?;
         Ok(())
     }
