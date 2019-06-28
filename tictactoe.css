@@ -40,25 +40,26 @@ body {
 	position: relative;
 }
 .cell.X::before {
-	position: absolute;
-	top: 50%;
 	content: "✗";
-	left: 50%;
-	margin: -34px -25px;
+	position: absolute;
+	left: 0;
 	right: 0;
-	align-items: center;
-	font-size: 64px;
+	top: 0;
+	bottom: 0;
+	text-align: center;
+	margin-top: 6px;
+	font-size: 70px;
 }
 .cell.O::before {
-	position: absolute;
-	top: 50%;
 	content: "⭘";
-	left: 50%;
-	margin: -31px -25px;
+	position: absolute;
+	left: 0;
 	right: 0;
-	align-items: center;
-	font-size: 54px;
-	font-family: sans-serif;
+	top: 0;
+	bottom: 0;
+	text-align: center;
+	margin-top: 2px;
+	font-size: 68px;
 }
 .cell.empty {
 	cursor: pointer;
@@ -74,16 +75,63 @@ body {
 }
 #footer {
 	position: fixed;
-	left: 0;
-	right: 0;
-	bottom: -20px;
 	text-align: center;
 	font-family: sans-serif;
 	line-height: 20px;
 	opacity: 0;
 }
 #footer.visible {
-	bottom: 15px;
 	opacity: 1;
 	transition: all 2s;
+}
+
+#footer {
+	right: 10px;
+	bottom: -20px;
+	left: 10px;
+	margin-bottom: 20px;
+}
+#footer.visible {
+	bottom: 15px;
+}
+
+@media (orientation: landscape) and (max-height:500px) {
+	#footer {
+		top: 5;
+		right: -2px;
+		bottom: 5px;
+		left: initial;
+		margin-bottom: 20px;
+		width: 0px;
+		padding-right: 0;
+	}
+	#footer.visible {
+		width: 190px;
+		padding-right: 4px;
+		bottom: initial;
+	}
+}
+
+.board-panel {
+	position: absolute;
+	bottom: 100%;
+	left: 0;
+	right: 0;
+	display: flex;
+	height: 50px;
+	align-items: center;
+	justify-content: center;
+}
+
+.button {
+	cursor: pointer;
+	border-radius: 6px;
+	border: 3px solid #583851;
+	color: #583851;
+	padding: 5px 10px;
+	font-size: 18px;
+	font-family: sans-serif;
+}
+.button:hover {
+	background: #8b758733;
 }

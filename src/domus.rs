@@ -47,6 +47,18 @@ pub fn tag_class(tag_name: &str, class: &str) -> Result<HtmlElement, JsValue> {
     Ok(e)
 }
 
+pub fn remove_by_selector(selector: &str) {
+    let node_list = doc().query_selector_all(selector).unwrap();
+    for i in 0..node_list.length() {
+        let node = node_list.item(i);
+        if let Some(node) = node {
+            if let Ok(e) = node.dyn_into::<HtmlElement>() {
+                e.remove();
+            }
+        }
+    }
+}
+
 pub fn log_str(s: &str) {
     console::log_1(&JsValue::from_str(s));
 }

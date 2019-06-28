@@ -134,8 +134,7 @@ impl Board {
             }
         }
         // let's just return any possible move
-        let i: usize = random_usize(0..free_cells.len());
-        free_cells[i]
+        free_cells[random_usize(0..free_cells.len())]
     }
     pub fn ai_play(&mut self) {
         if self.is_finished() {

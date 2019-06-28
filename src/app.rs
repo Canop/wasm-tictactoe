@@ -1,7 +1,6 @@
 use wasm_bindgen::prelude::*;
 use web_sys::{HtmlElement};
 
-use crate::board::Board;
 use crate::board_view::BoardView;
 use crate::domus::*;
 
@@ -11,8 +10,7 @@ pub struct App {
 
 impl App {
     pub fn new() -> Self {
-        let board = Board::default();
-        let board_view = BoardView::new("main".to_owned(), board);
+        let board_view = BoardView::new("main".to_owned());
         Self {
             board_view,
         }

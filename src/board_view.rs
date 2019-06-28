@@ -13,7 +13,8 @@ pub struct BoardView {
 }
 
 struct EventHandlerSet {
-    cell_on_clicks: Vec<Closure<dyn FnMut()>>,
+    cell_handlers: Vec<Closure<dyn FnMut()>>,
+    new_game_handler: Option<Closure<dyn FnMut()>>,
 }
 
 impl Drop for EventHandlerSet {
@@ -30,12 +31,16 @@ impl Drop for EventHandlerSet {
 static mut LAST_HANDLERS: Option<EventHandlerSet> = None;
 
 impl BoardView {
-    pub fn new(id: String, board: Board) -> Self {
+    pub fn new(id: String) -> Self {
         BoardView {
             id,
-            board,
+            board: Board::default(),
             player: CellValue::X,
         }
+    }
+    pub fn reset_board(&mut self) {
+        self.board = Board::default();
+        self.redraw_cells();
     }
     pub fn cell_id(&self, x: usize, y: usize) -> String {
         format!("cell_{}_{}_{}", &self.id, x, y)
@@ -48,6 +53,38 @@ impl BoardView {
                 } else {
                     log!("I lost cell {} {}!", i, j);
                 }
+            }
+        }
+    }
+    fn show_new_game_button(&mut self, view: &Arc<Mutex<BoardView>>) {
+        let panel = tag_class("div", "board-panel").unwrap();
+        let button = tag_class("div", "button").unwrap();
+        button.set_inner_text("New Game");
+        panel.append_child(&button).unwrap();
+        if let Some(b) = doc().get_element_by_id(&self.id) {
+            b.append_child(&panel).unwrap();
+        } else {
+            log!("I lost the board");
+            return;
+        }
+        let closure_view = Arc::clone(view);
+        let on_click = Closure::wrap(Box::new(move|| {
+            log!("new game");
+            let mut view = closure_view.lock().unwrap();
+            view.reset_board();
+            remove_by_selector(&format!("#{} .game-outcome", view.id));
+            remove_by_selector(&format!("#{} .board-panel", view.id));
+            // let's release the event handler from memory
+            unsafe {
+                if let Some(ref mut handlers) = LAST_HANDLERS {
+                    handlers.new_game_handler = None;
+                }
+            }
+        }) as Box<dyn FnMut()>);
+        button.set_onclick(Some(on_click.as_ref().unchecked_ref()));
+        unsafe {
+            if let Some(ref mut handlers) = LAST_HANDLERS {
+                handlers.new_game_handler = Some(on_click);
             }
         }
     }
@@ -69,7 +106,8 @@ impl BoardView {
         container.append_child(&be)?;
         let view = Arc::new(Mutex::new(self));
         let mut handlers = EventHandlerSet {
-            cell_on_clicks: Vec::new(),
+            cell_handlers: Vec::new(),
+            new_game_handler: None,
         };
         for i in 0..3 {
             for j in 0..3 {
@@ -92,7 +130,6 @@ impl BoardView {
                     }
                     view.redraw_cells();
                     if !view.board.winner.is_empty() {
-                        // I don't think this branch is reachable...
                         view.show_game_outcome("You win!");
                     } else {
                         view.board.ai_play();
@@ -101,12 +138,15 @@ impl BoardView {
                             view.show_game_outcome("You lose!");
                         }
                     }
-                    if view.board.is_finished() && view.board.winner.is_empty() {
-                        view.show_game_outcome("Both lose");
+                    if view.board.is_finished() {
+                        if view.board.winner.is_empty() {
+                            view.show_game_outcome("Both lose");
+                        }
+                        view.show_new_game_button(&closure_view);
                     }
                 }) as Box<dyn FnMut()>);
                 cell.set_onclick(Some(on_click.as_ref().unchecked_ref()));
-                handlers.cell_on_clicks.push(on_click);
+                handlers.cell_handlers.push(on_click);
             }
         }
         unsafe {
