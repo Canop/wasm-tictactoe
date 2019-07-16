@@ -9,6 +9,8 @@
 # wasm-tictactoe
 Example of a 100% pure Rust, framework free, Wasm application
 
+I've written about the experience in dev.to: [An exploration of Rust/Wasm](https://dev.to/dystroy/an-exploration-or-rust-wasm-50gp)
+
 ## Goal
 
 The goal is to answer this simple question: *How convenient and efficient is it to build a 100% Rust Wasm Web application?*
